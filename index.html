@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>HOTTOH — Premium Content</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root {
+    --black: #050505;
+    --black-card: #0a0a0a;
+    --dark-red: #8B0000;
+    --crimson: #ff1e1e;
+    --white: #ffffff;
+    --telegram-blue: #0088cc;
+  }
+
+  body {
+    background-color: var(--black);
+    color: var(--white);
+    font-family: 'Poppins', system-ui, sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* PREVIEW VIDEO STYLES */
+  .preview-video {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    cursor: pointer;
+  }
+
+  .preview-overlay {
+    position: relative;
+  }
+
+  .play-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 30, 30, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    cursor: pointer;
+    transition: 0.3s;
+    z-index: 10;
+  }
+
+  .play-icon:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+    background: var(--crimson);
+  }
+
+  .navbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    background: rgba(5, 5, 5, 0.96);
+    border-bottom: 1px solid rgba(139, 0, 0, 0.5);
+  }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 2px;
+    color: var(--crimson);
+    cursor: pointer;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+  }
+
+  .nav-links span {
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  .nav-links span:hover {
+    color: var(--crimson);
+  }
+
+  .hero {
+    height: 70vh;
+    background: linear-gradient(100deg, #050505 20%, #2a0000 90%);
+    display: flex;
+    align-items: center;
+    padding: 0 60px;
+    border-bottom: 3px solid var(--crimson);
+  }
+
+  .hero-content h1 {
+    font-size: 4rem;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 3px;
+  }
+
+  .hero-content h1 span {
+    color: var(--crimson);
+    text-shadow: 0 0 20px rgba(255, 30, 30, 0.8);
+  }
+
+  .hero-btn {
+    margin-top: 30px;
+    background: var(--crimson);
+    border: none;
+    padding: 12px 32px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  .hero-btn:hover {
+    transform: scale(1.02);
+    background: #ff3333;
+    box-shadow: 0 0 25px var(--crimson);
+  }
+
+  .ticker {
+    background: var(--dark-red);
+    padding: 8px 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .ticker span {
+    display: inline-block;
+    padding-left: 100%;
+    animation: tickerAnim 25s linear infinite;
+    font-weight: bold;
+  }
+
+  @keyframes tickerAnim {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    margin: 40px 0 20px 0;
+    border-left: 4px solid var(--crimson);
+    padding-left: 20px;
+  }
+
+  .pack-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+    margin-bottom: 50px;
+  }
+
+  .pack-card {
+    background: var(--black-card);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: 0.3s;
+    border: 1px solid rgba(255, 30, 30, 0.2);
+  }
+
+  .pack-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--crimson);
+    box-shadow: 0 15px 35px rgba(255, 30, 30, 0.2);
+  }
+
+  .card-img {
+    height: 220px;
+    background: linear-gradient(145deg, #1f1f1f, #050505);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .video-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .video-play-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    background: var(--crimson);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    transition: 0.3s;
+    z-index: 10;
+  }
+
+  .video-play-btn:hover {
+    width: 60px;
+    height: 60px;
+    font-size: 30px;
+  }
+
+  .badge-lifetime {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: var(--crimson);
+    padding: 4px 8px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    border-radius: 6px;
+    z-index: 10;
+  }
+
+  .trending-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: #ffcc00;
+    color: black;
+    padding: 4px 8px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    z-index: 10;
+  }
+
+  .card-content {
+    padding: 18px;
+  }
+
+  .card-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+  }
+
+  .card-price {
+    font-size: 1.5rem;
+    color: var(--crimson);
+    font-weight: bold;
+    margin: 10px 0;
+  }
+
+  .old-price {
+    font-size: 0.9rem;
+    text-decoration: line-through;
+    color: gray;
+    margin-left: 8px;
+  }
+
+  .card-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 12px 0;
+  }
+
+  .tag {
+    background: #1e1e1e;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+  }
+
+  .btn-buy {
+    width: 100%;
+    background: linear-gradient(135deg, var(--crimson), #ff4444);
+    border: none;
+    padding: 12px;
+    font-weight: bold;
+    margin-top: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: 0.3s;
+  }
+
+  .btn-buy:hover {
+    transform: scale(1.02);
+    box-shadow: 0 5px 15px rgba(255, 30, 30, 0.4);
+  }
+
+  .btn-telegram {
+    background: var(--telegram-blue);
+  }
+
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(12px);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-card {
+    background: #0f0f0f;
+    max-width: 500px;
+    width: 90%;
+    border-radius: 16px;
+    border-top: 3px solid var(--crimson);
+    padding: 25px;
+    text-align: center;
+  }
+
+  .telegram-btn {
+    display: inline-block;
+    background: #0088cc;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 20px 0;
+    transition: 0.3s;
+  }
+
+  .telegram-btn:hover {
+    background: #006699;
+    transform: scale(1.05);
+  }
+
+  .live-popup {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #000000dd;
+    border-left: 4px solid var(--crimson);
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    z-index: 500;
+    backdrop-filter: blur(5px);
+    animation: slideIn 0.3s ease;
+  }
+
+  @keyframes slideIn {
+    from {
+      transform: translateX(100px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  .video-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    z-index: 10000;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .video-modal video {
+    max-width: 90%;
+    max-height: 90%;
+  }
+
+  .close-video {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 40px;
+    color: white;
+    cursor: pointer;
+    z-index: 10001;
+  }
+
+  @media (max-width: 768px) {
+    .navbar {
+      padding: 10px 20px;
+    }
+
+    .hero {
+      padding: 0 20px;
+      height: 50vh;
+    }
+
+    .hero-content h1 {
+      font-size: 2rem;
+    }
+
+    .pack-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+  }
+
+  .page {
+    display: none;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .page.active-page {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div id="loading">
+  <div class="loader-text">HOTTOH</div>
+  <div style="width: 200px; height: 2px; background: #2a0000; margin-top: 20px; border-radius: 2px;">
+    <div style="width: 0%; height: 100%; background: var(--crimson); animation: loadBar 2s ease-out forwards;"></div>
+  </div>
+</div>
+
+<nav class="navbar">
+  <div class="logo" onclick="navigateTo('home')">HOTTOH</div>
+  <div class="nav-links">
+    <span onclick="navigateTo('home')">HOME</span>
+    <span onclick="navigateTo('packs')">PACKS</span>
+    <span onclick="navigateTo('contact')">CONTACT</span>
+  </div>
+</nav>
+
+<div id="homePage" class="page active-page">
+  <div class="hero">
+    <div class="hero-content">
+      <h1>PREMIUM <span>VIDEO PACKS</span><br>LIFETIME ACCESS</h1>
+      <p style="margin: 20px 0; max-width: 500px;">Watch previews, then get full access via Telegram after payment</p>
+      <button class="hero-btn" onclick="navigateTo('packs')">🔥 WATCH PREVIEWS 🔥</button>
+    </div>
+  </div>
+  <div class="ticker"><span>⚡ 47 PEOPLE ONLINE • NEW PACKS ADDED DAILY • LIFETIME ACCESS ⚡</span></div>
+  <div class="container" style="max-width:1400px; margin:0 auto; padding:0 30px;">
+    <div class="section-title">🔥 HOTTEST PACKS THIS WEEK</div>
+    <div class="pack-grid" id="trendingGrid"></div>
+  </div>
+</div>
+
+<div id="packsPage" class="page">
+  <div class="container" style="max-width:1400px; margin:30px auto 0; padding:0 30px;">
+    <div class="section-title">📦 ALL PREMIUM PACKS</div>
+    <div class="pack-grid" id="allPacksGrid"></div>
+  </div>
+</div>
+
+<div id="contactPage" class="page">
+  <div class="container" style="max-width:800px; margin:0 auto; padding:60px 30px;">
+    <h1>📞 CONTACT & SUPPORT</h1>
+    <div style="background: #0a0a0a; padding: 40px; border-radius: 16px; text-align: center; margin-top: 30px;">
+      <h2 style="color: var(--crimson);">BUY DIRECTLY ON TELEGRAM</h2>
+      <p style="margin: 20px 0;">After payment, you receive INSTANT access to all MEGA links</p>
+      <a href="https://t.me/hottoh_support" target="_blank" class="telegram-btn" style="font-size: 1.2rem;">
+        💬 CONTACT @hottoh_support
+      </a>
+      <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #333;">
+        <h3>💳 PAYMENT METHODS</h3>
+        <p>PayPal: <strong style="color: var(--crimson);">willy.simbine@gmail.com</strong></p>
+        <p style="margin-top: 10px;">After payment, send proof to Telegram and get instant access</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="packModal" class="modal">
+  <div class="modal-card">
+    <span style="float: right; font-size: 28px; cursor: pointer;" onclick="closeModal()">&times;</span>
+    <h2 id="modalTitle"></h2>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<div id="videoModal" class="video-modal">
+  <span class="close-video" onclick="closeVideoModal()">&times;</span>
+  <video id="fullVideo" controls autoplay>
+    <source id="videoSource" src="" type="video/mp4">
+  </video>
+</div>
+
+<script>
+  // ============================================
+  // PROTECTION
+  // ============================================
+  document.addEventListener('contextmenu', (e) => e.preventDefault());
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) || (e.ctrlKey && e.key === 'u')) {
+      e.preventDefault();
+      return false;
+    }
+  });
+
+  // ============================================
+  // CONTENT DATA - EDIT HERE!
+  // Add your preview videos (short clips) and Telegram info
+  // ============================================
+  const packs = [
+    {
+      id: 1,
+      title: "🔥 ULTRA ALPHA COLLECTION",
+      description: "The most exclusive pack. 50+ premium videos in 4K quality",
+      price: 29.99,
+      oldPrice: 79.99,
+      previewVideo: "marketing-2.mp4", // Replace with your preview video URL
+      telegramChannel: "@sheilasmith21",
+      tags: ["4K", "EXCLUSIVE", "VIP"],
+      trending: true,
+      popular: true
+    },
+    {
+      id: 2,
+      title: "💎kids premium packet",
+      description: "++kids 365videos",
+      price: 50.99,
+      oldPrice: 49.99,
+      previewVideo: "-1.mp4",
+      telegramChannel: "https://t.me/sheilasmith21",
+      tags: ["CINEMA", "HDR", "LIMITED", "BESTSELLER" ],
+      trending: true,
+      popular: true
+    },
+    {
+      id: 3,
+      title: "⚡ sisters and brothers ",
+      description: " videos 365 incest",
+      price: 40.99,
+      oldPrice: 119.99,
+      previewVideo: "-4.mp4",
+      telegramChannel: "https://t.me/sheilasmith21",
+      tags: ["BUNDLE", "VALUE", "COMPLETE"],
+      trending: false,
+      popular: true
+    },
+    {
+      id: 4,
+      title: "🎬 platinum videos links with mega",
+      description: "+500 videos onlyfans stars ",
+      price: 35.99,
+      oldPrice: 99.99,
+      previewVideo: "-5.mp4",
+      telegramChannel: "https://t.me/sheilasmith21",
+      tags: ["VIP", "PREMIUM", "BESTSELLER"],
+      trending: true,
+      popular: true
+    },
+  ];
+
+  // Function to render packs
+  function renderPacks() {
+    const allGrid = document.getElementById('allPacksGrid');
+    const trendingGrid = document.getElementById('trendingGrid');
+    
+    const cardsHtml = packs.map(pack => `
+      <div class="pack-card">
+        <div class="card-img" onclick="playPreview('${pack.previewVideo}')">
+          <video class="video-preview" muted>
+            <source src="${pack.previewVideo}" type="video/mp4">
+          </video>
+          <div class="video-play-btn">▶</div>
+          <div class="badge-lifetime">♾ LIFETIME</div>
+          ${pack.trending ? '<div class="trending-badge">🔥 TRENDING</div>' : ''}
+        </div>
+        <div class="card-content">
+          <div class="card-title">${pack.title}</div>
+          <div class="card-price">$${pack.price} ${pack.oldPrice ? `<span class="old-price">$${pack.oldPrice}</span>` : ''}</div>
+          <div class="card-tags">${pack.tags.map(t => `<span class="tag">#${t}</span>`).join('')}</div>
+          <button class="btn-buy" onclick="buyPack(${pack.id})">
+            🎬 WATCH PREVIEW & BUY
+          </button>
+        </div>
+      </div>
+    `).join('');
+    
+    if(allGrid) allGrid.innerHTML = cardsHtml;
+    if(trendingGrid) trendingGrid.innerHTML = packs.filter(p => p.trending).map(pack => `
+      <div class="pack-card">
+        <div class="card-img" onclick="playPreview('${pack.previewVideo}')">
+          <video class="video-preview" muted>
+            <source src="${pack.previewVideo}" type="video/mp4">
+          </video>
+          <div class="video-play-btn">▶</div>
+          <div class="badge-lifetime">♾ LIFETIME</div>
+          <div class="trending-badge">🔥 TRENDING</div>
+        </div>
+        <div class="card-content">
+          <div class="card-title">${pack.title}</div>
+          <div class="card-price">$${pack.price} ${pack.oldPrice ? `<span class="old-price">$${pack.oldPrice}</span>` : ''}</div>
+          <button class="btn-buy" onclick="buyPack(${pack.id})">
+            🎬 WATCH PREVIEW & BUY
+          </button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Play preview video
+  window.playPreview = function(videoUrl) {
+    const videoModal = document.getElementById('videoModal');
+    const videoPlayer = document.getElementById('fullVideo');
+    const videoSource = document.getElementById('videoSource');
+    videoSource.src = videoUrl;
+    videoPlayer.load();
+    videoModal.style.display = 'flex';
+    videoPlayer.play();
+  };
+
+  window.closeVideoModal = function() {
+    const videoModal = document.getElementById('videoModal');
+    const videoPlayer = document.getElementById('fullVideo');
+    videoPlayer.pause();
+    videoModal.style.display = 'none';
+  };
+
+  // Buy pack - redirect to Telegram + PayPal
+  window.buyPack = function(packId) {
+    const pack = packs.find(p => p.id === packId);
+    if(!pack) return;
+    
+    const modal = document.getElementById('packModal');
+    document.getElementById('modalTitle').innerHTML = pack.title;
+    document.getElementById('modalContent').innerHTML = `
+      <div style="margin: 20px 0;">
+        <p>${pack.description}</p>
+        <div style="background: #050505; padding: 15px; border-radius: 12px; margin: 15px 0;">
+          <h3>💰 Price: $${pack.price}</h3>
+          <p style="font-size: 0.9rem; color: #ccc;">Lifetime access • Instant delivery via Telegram</p>
+        </div>
+        
+        <div style="margin: 20px 0;">
+          <h3>📺 Watch Full Preview:</h3>
+          <div onclick="playPreview('${pack.previewVideo}')" style="background: #1a1a1a; padding: 10px; border-radius: 8px; cursor: pointer; text-align: center;">
+            ▶ Click here to watch preview video
+          </div>
+        </div>
+        
+        <div style="background: #0a2a0a; padding: 15px; border-radius: 12px; margin: 15px 0;">
+          <h3 style="color: #00ff00;">✅ HOW TO GET ACCESS:</h3>
+          <ol style="text-align: left; margin-left: 20px; margin-top: 10px;">
+            <li>Pay via PayPal: <strong style="color: var(--crimson);">willy.simbine@gmail.com</strong></li>
+            <li>Send payment proof + pack name to Telegram</li>
+            <li>Receive ALL MEGA links instantly</li>
+          </ol>
+        </div>
+        
+        <a href="https://t.me/sheilasmith21" target="_blank" class="telegram-btn" style="display: inline-block; width: 100%; text-align: center; margin: 10px 0;">
+          💬 CONTACT ON TELEGRAM TO BUY
+        </a>
+        
+        <button class="hero-btn" onclick="window.open('https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=willy.simbine@gmail.com&item_name=${encodeURIComponent('HOTTOH - ' + pack.title)}&amount=${pack.price}&currency_code=USD', '_blank')" style="width: 100%; margin-top: 10px;">
+          💳 PAY NOW WITH PAYPAL
+        </button>
+        
+        <p style="font-size: 0.8rem; margin-top: 20px; color: #888;">After payment, contact @hottoh_support on Telegram with your transaction ID</p>
+      </div>
+    `;
+    modal.style.display = 'flex';
+    
+    // Live notification simulation
+    addLiveNotification(`👀 Someone is watching ${pack.title} preview`);
+  };
+
+  function addLiveNotification(msg) {
+    const div = document.createElement('div');
+    div.className = 'live-popup';
+    div.innerHTML = `🔴 ${msg}`;
+    document.body.appendChild(div);
+    setTimeout(() => div.remove(), 4000);
+  }
+
+  window.closeModal = function() {
+    document.getElementById('packModal').style.display = 'none';
+  };
+
+  window.navigateTo = function(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+    if(page === 'home') document.getElementById('homePage').classList.add('active-page');
+    if(page === 'packs') {
+      document.getElementById('packsPage').classList.add('active-page');
+      renderPacks();
+    }
+    if(page === 'contact') document.getElementById('contactPage').classList.add('active-page');
+  };
+
+  // Hover effect for videos
+  document.addEventListener('mouseover', function(e) {
+    if(e.target.classList && e.target.classList.contains('video-preview')) {
+      e.target.play();
+    }
+  });
+  
+  document.addEventListener('mouseout', function(e) {
+    if(e.target.classList && e.target.classList.contains('video-preview')) {
+      e.target.pause();
+      e.target.currentTime = 0;
+    }
+  });
+
+  // Random live popups
+  setInterval(() => {
+    const randomPack = packs[Math.floor(Math.random() * packs.length)];
+    addLiveNotification(`🔥 ${randomPack.title} was just purchased! 🔥`);
+  }, 45000);
+
+  // Initialize
+  window.addEventListener('load', () => {
+    renderPacks();
+    setTimeout(() => {
+      const loading = document.getElementById('loading');
+      loading.style.opacity = '0';
+      setTimeout(() => loading.style.display = 'none', 500);
+    }, 1500);
+  });
+</script>
+</body>
+</html>
